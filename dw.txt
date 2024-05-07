@@ -1,0 +1,16 @@
+"select a.vendor_id, 
+a.vndr_loc as \"Branch\",
+b.latitude,
+b.longitude
+from ps_vendor_loc a,
+     ps_isa_vndr_latlon b
+where  a.vendor_id     = " ++ 'EM0000'
+ ++ " and    a.eff_status = " ++ "" ++
+" and    a.effdt      = (select max(a_ed.effdt)
+                       from ps_vendor_loc a_ed
+                       where a.setid     = a_ed.setid
+                       and   a.vendor_id = a_ed.vendor_id
+                       and   a_ed.effdt <= sysdate)
+and    a.setid      = b.setid
+and    a.vendor_id  = b.vendor_id
+and    a.addr_seq_num_ordr = b.address_seq_num"
